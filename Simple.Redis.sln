@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Redis", "Simple.Redis/Simple.Redis.csproj", "{46406F5D-071A-4268-A539-55D1819FFAED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46406F5D-071A-4268-A539-55D1819FFAED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46406F5D-071A-4268-A539-55D1819FFAED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46406F5D-071A-4268-A539-55D1819FFAED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46406F5D-071A-4268-A539-55D1819FFAED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
