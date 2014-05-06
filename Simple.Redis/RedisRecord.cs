@@ -33,7 +33,7 @@ namespace Simple.Redis
         public bool GetBoolean()
         {
             int integer = GetInteger();
-            if (integer != 0 || integer != 1)
+            if (integer != 0 && integer != 1)
                 throw new InvalidCastException();
 
             return (integer == 1);
