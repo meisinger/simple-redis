@@ -1,18 +1,30 @@
-﻿using Simple.Redis.Utilities;
-using System;
+﻿using System;
 using System.IO;
 using System.Net.Sockets;
 
 namespace Simple.Redis
 {
-    public class RedisConnection
+    public class RedisConnection : IDisposable
     {
         private readonly Socket socket;
         private readonly BufferedStream buffer;
 
+        private RedisConnectionPool connectionPool;
+        private bool active;
+
+        public bool IsActive
+        {
+            get { return active; }
+        }
+
         public bool IsOpen
         {
             get { return socket.Connected; }
+        }
+
+        public Stream RedisChannel
+        {
+            get { return buffer; }
         }
 
         public RedisConnection(Socket socket, BufferedStream buffer)
@@ -23,19 +35,33 @@ namespace Simple.Redis
 
         public void Dispose()
         {
+            if (connectionPool != null)
+                connectionPool.DisposeConnection(this);
+            else
+                DisposeConnection();
+        }
+
+        internal void DisposeConnection()
+        {
             buffer.Close();
+
+            socket.Shutdown(SocketShutdown.Both);
             socket.Close();
         }
 
-        public RedisResult Execute(RedisCommand command)
+        internal void SetConnectionActive()
         {
-            if (!socket.Connected)
-                throw new InvalidOperationException();
+            active = true;
+        }
 
-            command.ExecuteCommand(buffer);
+        internal void SetConnectionInactive()
+        {
+            active = false;
+        }
 
-            var reader = new RedisReader(buffer);
-            return reader.Parse();
+        internal void SetConnectionPool(RedisConnectionPool pool)
+        {
+            connectionPool = pool;
         }
     }
 }

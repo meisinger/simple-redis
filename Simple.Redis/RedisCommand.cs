@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Simple.Redis.Extensions;
+using Simple.Redis.Utilities;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Simple.Redis.Extensions;
-using Simple.Redis.Utilities;
 
 namespace Simple.Redis
 {
@@ -31,6 +29,12 @@ namespace Simple.Redis
             return this;
         }
 
+        public RedisCommand AddArgument(int argument)
+        {
+            collection.Add(Encoding.UTF8.GetBytes(argument.ToString()));
+            return this;
+        }
+
         public RedisCommand AddArgument<T>(T argument)
             where T : class
         {
@@ -40,11 +44,30 @@ namespace Simple.Redis
             return this;
         }
 
-        internal void ExecuteCommand(Stream stream)
+        public RedisResult Execute(RedisConnection connection)
         {
+            if (!connection.IsOpen)
+                throw new InvalidOperationException("Connection must be open.");
+
             var bytes = GenerateCommand(collection.ToArray());
-            stream.Write(bytes, 0, bytes.Length);
-            stream.Flush();
+
+            var channel = connection.RedisChannel;
+            channel.Write(bytes, 0, bytes.Length);
+            channel.Flush();
+
+            var reader = new RedisReader(channel);
+            return reader.Parse();
+        }
+
+        public static RedisCommand Create(string command)
+        {
+            if (!RedisCommandMapping.IsValidCommand(command))
+            {
+                var message = string.Format("The command \"{0}\" is not a valid Redis command or is not understood.", command);
+                throw new InvalidOperationException(message);
+            }
+
+            return RedisCommandMapping.GenerateCommand(command);
         }
 
         private static byte[] GenerateCommand(byte[][] arguments)

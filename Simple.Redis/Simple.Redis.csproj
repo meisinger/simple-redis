@@ -30,23 +30,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\MemoryStreamExtensions.cs" />
     <Compile Include="RedisCommand.cs" />
+    <Compile Include="RedisCommands.cs" />
     <Compile Include="RedisConnectionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedisConnection.cs" />
+    <Compile Include="RedisConnectionManager.cs" />
+    <Compile Include="RedisConnectionPool.cs" />
+    <Compile Include="Utilities\RedisCommandMapping.cs" />
     <Compile Include="Utilities\RedisReader.cs" />
     <Compile Include="RedisRecord.cs" />
     <Compile Include="RedisResult.cs" />

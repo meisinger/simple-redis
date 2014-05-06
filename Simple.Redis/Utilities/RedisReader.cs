@@ -44,7 +44,6 @@ namespace Simple.Redis.Utilities
                             indicator);
 
                     throw new InvalidDataException(message);
-                    break;
             }
 
             return container.ToResult();
